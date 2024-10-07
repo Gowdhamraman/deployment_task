@@ -3,18 +3,22 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing Nginx"
-      - yum update -y
-      - yum install nginx -y
-      - echo "Creating directory if it does not exist"
-      - mkdir -p /var/www/html
-
+      - echo Installing NGINX
+      - sudo yum update -y
+      - sudo yum install nginx -y
   build:
     commands:
-      - echo "Copying index.html to Nginx directory"
+      - echo Build started on `date`
+      - mkdir -p /var/www/html/  # Ensure the directory exists
       - cp index.html /var/www/html/
-
   post_build:
     commands:
-      - echo "Starting Nginx"
-      - systemctl start nginx || { echo "Failed to start Nginx"; exit 1; }
+      - echo Configuring NGINX
+      - sudo systemctl start nginx
+      - sudo systemctl enable nginx
+      - sudo nginx -s reload || sudo nginx  # Reload NGINX, or start if not running
+
+artifacts:
+  files:
+    - /var/www/html/index.html
+
