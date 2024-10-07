@@ -14,8 +14,6 @@ phases:
   post_build:
     commands:
       - echo Configuring NGINX
-      - sudo systemctl start nginx
-      - sudo systemctl enable nginx
       - sudo nginx -s reload || sudo nginx  # Reload NGINX, or start if not running
 
 artifacts:
